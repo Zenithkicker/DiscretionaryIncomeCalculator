@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiscretionaryIncomeCalculator.RecurringChargeListEdit"
+             Title="RecurringChargeListEdit"
+             xmlns:viewmodel="clr-namespace:DiscretionaryIncomeCalculator.ViewModel"
+             xmlns:model="clr-namespace:DiscretionaryIncomeCalculator.Model"
+             x:DataType="viewmodel:RecurringChargeListEditViewModel">    
+    
+    <Grid RowDefinitions="Auto,Auto,Auto" 
+          ColumnDefinitions=".10*,.70*,.20*,*" 
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
+
+        <!-- Row 0-->
+        
+        
+        <!--Row 1-->
+        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Text="Name" />
+            <Entry Placeholder="Name"                
+               Keyboard="Text" 
+               Text="{Binding RecurringCharge.Name}" 
+               HeightRequest="50" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+            <Label Text="Amount" />
+            <Entry Keyboard="Numeric" 
+               Text="{Binding RecurringCharge.Amount}" 
+               HeightRequest="50" />
+        </VerticalStackLayout>                     
+        
+        <!--Row 2-->
+        <Button Text="Add Item" 
+                Grid.Row="1" 
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Command="{Binding AddItemCommand}"
+                Padding="20" />
+
+        <!--Row 3-->
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="4"
+                        ItemsSource="{Binding RecurringCharges}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type model:RecurringCharge}">                                      
+                    <Grid RowDefinitions="*" 
+                            ColumnDefinitions=".50*,.40*,Auto"
+                            ColumnSpacing="10"
+                            Padding="0,5">
+                        <Label Text="{Binding Name}" FontSize="18" Grid.Column="0" />
+                        <Label Text="{Binding Amount}" 
+                                FontSize="18" Grid.Column="1" />
+                        <Button Text="Delete" Grid.Column="2" FontSize="18"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecurringChargeListEditViewModel}}, Path=DeleteItemCommand}" 
+                                CommandParameter="{Binding Name}" />
+                    </Grid>                                           
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
